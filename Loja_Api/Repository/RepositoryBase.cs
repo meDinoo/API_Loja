@@ -78,6 +78,11 @@ namespace Loja_Api.Repository
 
         }
 
+        public async Task<T> Putasync<T>(T objeto)
+        {
+            return objeto;
+        }
+
 
 
 

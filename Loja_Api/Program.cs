@@ -1,4 +1,8 @@
+using Loja_Api.Interfaces;
+using Loja_Api.Manager;
+using Loja_Api.Repository;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using System.Data;
 
@@ -10,6 +14,11 @@ namespace Loja_Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(
+                    builder.Configuration.GetConnectionString(
+                        "DefaultConnection")));
+
             // Add services to the container.
 
             builder.Services.AddControllers();
@@ -17,6 +26,11 @@ namespace Loja_Api
             builder.Services.AddScoped<IDbConnection>(_=>
             new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+
+            builder.Services.AddScoped<IRepositoryBase, RepositoryBase>();
+
+            builder.Services.AddScoped<IAuthManager, AuthManager>();
+          
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options =>
             {
@@ -27,6 +41,7 @@ namespace Loja_Api
                     Description = "Documentação da API"
                 });
             });
+
             var app = builder.Build();
 
             app.UseSwagger();

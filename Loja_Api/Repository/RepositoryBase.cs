@@ -1,11 +1,12 @@
 ﻿using Dapper;
+using Loja_Api.Interfaces;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Reflection;
 
 namespace Loja_Api.Repository
 {
-    public class RepositoryBase 
+    public class RepositoryBase : IRepositoryBase
     {
         internal readonly IDbConnection _conn;
 
@@ -20,7 +21,7 @@ namespace Loja_Api.Repository
             var atributo = tipo.GetCustomAttribute<TableAttribute>();
             string table = atributo?.Name;
 
-            if (parametros.Count > 0)
+            if (parametros?.Count > 0)
             {
                 List<string> filtros = new List<string>();
                 var valores = new DynamicParameters();

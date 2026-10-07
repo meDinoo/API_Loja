@@ -1,4 +1,5 @@
-﻿using Loja_Api.Manager;
+﻿using Loja_Api.Interfaces;
+using Loja_Api.Manager;
 using Loja_Api.Model;
 using Loja_Api.Model.Auth;
 using Microsoft.AspNetCore.Mvc;
@@ -9,8 +10,8 @@ namespace Loja_Api.Controllers
     [Route("login")]
     public class AuthController : ControllerBase
     {
-        private readonly AuthManager _manager;
-        public AuthController(AuthManager manager)
+        private readonly IAuthManager _manager;
+        public AuthController(IAuthManager manager)
         {
             this._manager = manager;
         }
